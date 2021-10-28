@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const OptimizeCssAssetWebpackPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 let mode = "development";
 let target = "web";
@@ -33,6 +34,52 @@ if (process.env.NODE_ENV === "production") {
   mode = "production";
   target = "browserslist";
 }
+
+const plugins = () => {
+  const base = [
+    new HtmlWebpackPlugin({
+      template: "./src/index.html", //потом заменить на Pug
+      minify: {
+        collapseWhitespace: isProd, // убрать отступы
+        removeComments: isProd, // убрать комментарии
+      },
+    }),
+
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin(),
+
+    // new HtmlWebpackPlugin({ // Создает экземпляр 1 стр. 1 html файл = 1 экземпляр
+    //  filename: 'test.html',
+    //  template: PATHS.dev + 'pug/test.pug',
+    // }),
+
+    // ПОТОМ РАЗКОМЕНТИТЬ ЭТО
+    // new CleanWebpackPlugin(),
+    // new DashboardPlugin(), // подключаем красивый интерфейс к webpack
+    // new CopyWebpackPlugin([
+    //   {
+    //     //копирует иконку
+    //     from: path.resolve(__dirname, "dev/favicon.ico"),
+    //     to: path.resolve(__dirname, "prod"),
+    //   },
+    // ]),
+    // new MiniCssExtractPlugin({
+    //   filename: filename("css"),
+    //   // path: path.resolve(__dirname, 'prod')
+    // }),
+    // isProd
+    //   ? new ImageminPlugin({
+    //       test: /\.(png|jpe?g|gif|ico|svg)$/i,
+    //     })
+    //   : () => {},
+  ];
+  //при сбоорке на продакш запускает сервер BundleAnalyzerPlugin
+  if (isProd) {
+    base.push(new BundleAnalyzerPlugin());
+  }
+
+  return base;
+};
 
 module.exports = (env) => {
   const isProp = env.prop;
@@ -73,7 +120,7 @@ module.exports = (env) => {
 
   return {
     mode: mode,
-    target: target, // параметр по обновлению страницы в реальном времени
+    target: target,
 
     output: {
       path: path.resolve(__dirname, "dist"),
@@ -109,13 +156,7 @@ module.exports = (env) => {
       ],
     },
 
-    plugins: [
-      new CleanWebpackPlugin(),
-      new MiniCssExtractPlugin(),
-      new HtmlWebpackPlugin({
-        template: "./src/index.html",
-      }),
-    ],
+    plugins: plugins(),
 
     resolve: {
       extensions: [".js", ".jsx"],

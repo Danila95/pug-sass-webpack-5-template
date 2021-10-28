@@ -4,11 +4,12 @@
   "description": "Self-made Webpack 5 template for web-projects where using: Pug and SASS",
   "private": true,
   "scripts": {
-    "start": "webpack serve --open",
+    "start": "cross-env NODE_ENV=development webpack serve --open",
     "watch": "webpack --watch",
     "build": "cross-env NODE_ENV=production webpack --progress",
     "dev": "cross-env NODE_ENV=development webpack --progress",
-    "prop": "webpack --env prop"
+    "prop": "webpack --env prop",
+    "stats": "webpack --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "repository": {
     "type": "git",
@@ -45,6 +46,7 @@
     "sass-loader": "^12.2.0",
     "terser-webpack-plugin": "^5.2.4",
     "webpack": "^5.60.0",
+    "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.3.1"
   },
