@@ -86,7 +86,7 @@ const plugins = () => {
       patterns: [
         {
           from: path.resolve(__dirname, "./src/favicon.ico"),
-          to: path.resolve(__dirname, "dist"),
+          to: path.resolve(__dirname, "prod"),
         },
       ],
     }),
@@ -145,7 +145,7 @@ module.exports = (env) => {
 
     output: {
       filename: filename("js"),
-      path: path.resolve(__dirname, "dist"),
+      path: path.resolve(__dirname, "prod"),
       assetModuleFilename: "images/[hash][ext][query]",
     },
 
@@ -196,7 +196,7 @@ module.exports = (env) => {
     devtool: isDev ? "source-map" : false,
     devServer: {
       port: 8080,
-      static: "./dist",
+      static: "./prod",
       hot: true,
     },
   };
