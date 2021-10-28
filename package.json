@@ -1,20 +1,52 @@
 {
   "name": "pug-sass-webpack-5-template",
-  "version": "1.0.0",
-  "description": "\"# pug-sass-webpack-5-template\"",
-  "main": "index.js",
+  "version": "3.0.0",
+  "description": "Self-made Webpack 5 template for web-projects where using: Pug and SASS",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack serve --open",
+    "watch": "webpack --watch",
+    "build": "cross-env NODE_ENV=production webpack --progress",
+    "build-dev": "webpack"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Danila95/pug-sass-webpack-5-template.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "js",
+    "javascript",
+    "webpack 5",
+    "Pug",
+    "SASS"
+  ],
+  "author": "Bogdanov Danila <danila00000@Gmail.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Danila95/pug-sass-webpack-5-template/issues"
   },
-  "homepage": "https://github.com/Danila95/pug-sass-webpack-5-template#readme"
+  "homepage": "https://github.com/Danila95/pug-sass-webpack-5-template#readme",
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-react": "^7.14.5",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.4.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.4.3",
+    "postcss": "^8.3.11",
+    "postcss-loader": "^6.2.0",
+    "postcss-preset-env": "^6.7.0",
+    "sass": "^1.43.3",
+    "sass-loader": "^12.2.0",
+    "webpack": "^5.60.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.3.1"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
 }
