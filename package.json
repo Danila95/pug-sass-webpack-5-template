@@ -7,7 +7,8 @@
     "start": "webpack serve --open",
     "watch": "webpack --watch",
     "build": "cross-env NODE_ENV=production webpack --progress",
-    "build-dev": "webpack"
+    "dev": "cross-env NODE_ENV=development webpack --progress",
+    "prop": "webpack --env prop"
   },
   "repository": {
     "type": "git",
@@ -36,11 +37,13 @@
     "css-loader": "^6.4.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.4.3",
+    "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss": "^8.3.11",
     "postcss-loader": "^6.2.0",
     "postcss-preset-env": "^6.7.0",
     "sass": "^1.43.3",
     "sass-loader": "^12.2.0",
+    "terser-webpack-plugin": "^5.2.4",
     "webpack": "^5.60.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.3.1"
