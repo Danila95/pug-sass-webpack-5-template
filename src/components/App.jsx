@@ -14,6 +14,7 @@ const App = () => {
         </main>
         <img src={panel} alt="panel" width="250" />
         <img src={svgImg} alt="svgImg" />
+        {/* <h1>Test</h1> */}
         <Recipes />
       </section>
     </>

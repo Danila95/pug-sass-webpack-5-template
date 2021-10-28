@@ -3,10 +3,12 @@ const os = require("os");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const OptimizeCssAssetWebpackPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const DashboardPlugin = require("webpack-dashboard/plugin");
+const ImageminPlugin = require("imagemin-webpack-plugin").default;
 
 let mode = "development";
 let target = "web";
@@ -25,7 +27,10 @@ const optimization = () => {
   if (isProd) {
     config.minimizer = [
       new OptimizeCssAssetWebpackPlugin(),
-      new TerserWebpackPlugin(),
+      new TerserWebpackPlugin({
+        parallel: true,
+        extractComments: false,
+      }),
     ];
   }
   return config;
@@ -35,6 +40,28 @@ if (process.env.NODE_ENV === "production") {
   mode = "production";
   target = "browserslist";
 }
+
+const filename = (ext) => (isDev ? `[name].${ext}` : `[name].[hash].${ext}`);
+
+const cssLoaders = (extra) => {
+  const loaders = [
+    {
+      loader: MiniCssExtractPlugin.loader,
+      options: {
+        publicPath: "",
+      },
+    },
+    "css-loader",
+    "postcss-loader",
+    "sass-loader",
+  ];
+
+  if (extra) {
+    loaders.push(extra);
+  }
+
+  return loaders;
+};
 
 const plugins = () => {
   const base = [
@@ -50,27 +77,24 @@ const plugins = () => {
     //  template: PATHS.dev + 'pug/test.pug',
     // }),
 
-    new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: filename("css"),
+      // path: path.resolve(__dirname, 'prod')
+    }),
     new DashboardPlugin(), // подключаем красивый интерфейс к webpack
-    // ПОТОМ РАЗКОМЕНТИТЬ ЭТО
-
-    // new CopyWebpackPlugin([
-    //   {
-    //     //копирует иконку
-    //     from: path.resolve(__dirname, "dev/favicon.ico"),
-    //     to: path.resolve(__dirname, "prod"),
-    //   },
-    // ]),
-    // new MiniCssExtractPlugin({
-    //   filename: filename("css"),
-    //   // path: path.resolve(__dirname, 'prod')
-    // }),
-    // isProd
-    //   ? new ImageminPlugin({
-    //       test: /\.(png|jpe?g|gif|ico|svg)$/i,
-    //     })
-    //   : () => {},
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "./src/favicon.ico"),
+          to: path.resolve(__dirname, "dist"),
+        },
+      ],
+    }),
+    isProd
+      ? new ImageminPlugin({
+          test: /\.(png|jpe?g|gif|ico|svg)$/i,
+        })
+      : () => {},
   ];
   //при сбоорке на продакш запускает сервер BundleAnalyzerPlugin
   if (isProd) {
@@ -120,28 +144,38 @@ module.exports = (env) => {
     target: target,
 
     output: {
+      filename: filename("js"),
       path: path.resolve(__dirname, "dist"),
       assetModuleFilename: "images/[hash][ext][query]",
-      // clean: true,
     },
 
     module: {
       rules: [
         {
-          test: /\.(png|jpe?g|gif|svg)$/i,
+          test: /\.css$/,
+          use: cssLoaders(),
+        },
+        // {
+        //   test: /\.pug$/,
+        //   loader: "pug-loader",
+        //   options: {
+        //     pretty: isDev,
+        //   },
+        // },
+        {
+          test: /\.(png|jpe?g|svg|gif|ico)$/i,
           type: "asset",
         },
         {
+          test: /\.(eot|otf|ttf|woff|woff2)$/,
+          type: "asset/resource",
+          generator: {
+            filename: "fonts/[hash][ext][query]",
+          },
+        },
+        {
           test: /\.(s[ac]|c)ss$/,
-          use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-              options: { publicPath: "" },
-            },
-            "css-loader",
-            "postcss-loader",
-            "sass-loader",
-          ],
+          use: cssLoaders("sass-loader"),
         },
         {
           test: /\.jsx?$/,
@@ -158,9 +192,10 @@ module.exports = (env) => {
     resolve: {
       extensions: [".js", ".jsx"],
     },
-
-    devtool: "source-map",
+    optimization: optimization(),
+    devtool: isDev ? "source-map" : false,
     devServer: {
+      port: 8080,
       static: "./dist",
       hot: true,
     },

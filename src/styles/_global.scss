@@ -1,5 +1,13 @@
 @use "variables";
+
+/** Загружаем шрифты **/
+@font-face {
+  font-family: "Roboto";
+  src: url("../fonts/Roboto-Regular.ttf") format("truetype");
+}
+
 body {
+  font-family: "Roboto";
   margin: 0;
   background-color: variables.$bg;
   color: var(--text);
