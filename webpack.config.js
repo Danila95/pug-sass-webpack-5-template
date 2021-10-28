@@ -6,6 +6,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const OptimizeCssAssetWebpackPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const DashboardPlugin = require("webpack-dashboard/plugin");
 
 let mode = "development";
 let target = "web";
@@ -44,18 +45,16 @@ const plugins = () => {
         removeComments: isProd, // убрать комментарии
       },
     }),
-
-    new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin(),
-
     // new HtmlWebpackPlugin({ // Создает экземпляр 1 стр. 1 html файл = 1 экземпляр
     //  filename: 'test.html',
     //  template: PATHS.dev + 'pug/test.pug',
     // }),
 
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin(),
+    new DashboardPlugin(), // подключаем красивый интерфейс к webpack
     // ПОТОМ РАЗКОМЕНТИТЬ ЭТО
-    // new CleanWebpackPlugin(),
-    // new DashboardPlugin(), // подключаем красивый интерфейс к webpack
+
     // new CopyWebpackPlugin([
     //   {
     //     //копирует иконку
@@ -83,9 +82,7 @@ const plugins = () => {
 
 module.exports = (env) => {
   const isProp = env.prop;
-  console.log(isProp);
   if (isProp) {
-    console.log("true");
     console.log(`IS PROP: ${isProp}\n`);
     console.log("Характеристика компьютера");
     console.log("========================================================");
