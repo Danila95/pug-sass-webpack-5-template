@@ -147,6 +147,7 @@ module.exports = (env) => {
       filename: filename("js"),
       path: path.resolve(__dirname, "prod"),
       assetModuleFilename: "images/[hash][ext][query]",
+      clean: true,
     },
 
     module: {
