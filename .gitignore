@@ -2,3 +2,4 @@ node_modules
 prod
 .idea
 stats.json
+yarn-error.log
