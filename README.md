@@ -26,15 +26,15 @@ enter command `npm install` or `yarn install` (if you use yarn) to install depen
 
 ## Commands
 
-- `npm run dev` - for development.
-- `npm run build` - build static files in `prod` directory.
-- `npm run watch` - start webpack-dev-server.
-- `npm run start` - start webpack.
-- `npm run dash-watch` - start webpack-dev-server with awesome plagin-interface webpack-dashboard.
+- `npm run start` - start webpack serv.
+- `npm run watch` - start webpack server with key --watch.
+- `npm run build` - build static files in `prod` directory in mode production.
+- `npm run dev` - build static files in `prod` directory in mode development.
+- `npm run dash-start` - start webpack-dev-server with awesome plagin-interface webpack-dashboard.
 - `npm run prop` - show some details of the current computer.
-- `npm run stats` - run plagin webpack-bundle-analyzer
+- `npm run stats` - run plagin webpack-bundle-analyzer.
 
-  npm-check-updates - это утилита, которая автоматически настраивает package.json, которая подтягивает последнии версии всех зависимостей
+  npm-check-updates - это утилита, которая автоматически настраивает package.json, которая подтягивает последнии версии всех зависимостей.
 
 - https://www.npmjs.org/package/npm-check-updates
 
