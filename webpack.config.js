@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === "production") {
   target = "browserslist";
 }
 
-const filename = (ext) => (isDev ? `[name].${ext}` : `[name].[hash].${ext}`);
+const filename = (ext) => (isDev ? `[name].${ext}` : `[name].${ext}`);
 
 const cssLoaders = (extra) => {
   const loaders = [
@@ -66,7 +66,7 @@ const cssLoaders = (extra) => {
 const plugins = () => {
   const base = [
     new HtmlWebpackPlugin({
-      template: "./src/index.html", //потом заменить на Pug
+      template: "./src/index.pug",
       minify: {
         collapseWhitespace: isProd, // убрать отступы
         removeComments: isProd, // убрать комментарии
@@ -142,12 +142,26 @@ module.exports = (env) => {
   return {
     mode: mode,
     target: target,
-
+    entry: {
+      main: ["@babel/polyfill", "./src/main.js"],
+      analytics: "@common/analytics.js",
+    },
     output: {
       filename: filename("js"),
       path: path.resolve(__dirname, "prod"),
-      assetModuleFilename: "images/[hash][ext][query]",
+      assetModuleFilename: "images/[name][ext][query]",
       clean: true,
+    },
+    resolve: {
+      extensions: [".js", ".json", ".png", ".xml", ".csv"], // теперь в путях не надо писать расш. вызываемых файлов
+      alias: {
+        "@models": path.resolve(
+          __dirname,
+          "src/blocks/common.blocks/common/models"
+        ),
+        "@common": path.resolve(__dirname, "src/blocks/common.blocks/common/"),
+        "@": path.resolve(__dirname, "src"),
+      },
     },
 
     module: {
@@ -156,13 +170,13 @@ module.exports = (env) => {
           test: /\.css$/,
           use: cssLoaders(),
         },
-        // {
-        //   test: /\.pug$/,
-        //   loader: "pug-loader",
-        //   options: {
-        //     pretty: isDev,
-        //   },
-        // },
+        {
+          test: /\.pug$/,
+          loader: "pug-loader",
+          options: {
+            pretty: isDev,
+          },
+        },
         {
           test: /\.(png|jpe?g|svg|gif|ico)$/i,
           type: "asset",
@@ -171,7 +185,7 @@ module.exports = (env) => {
           test: /\.(eot|otf|ttf|woff|woff2)$/,
           type: "asset/resource",
           generator: {
-            filename: "fonts/[hash][ext][query]",
+            filename: "fonts/[name][ext][query]",
           },
         },
         {
@@ -185,14 +199,27 @@ module.exports = (env) => {
             loader: "babel-loader",
           },
         },
+        {
+          test: /\.xml$/,
+          use: ["xml-loader"],
+        },
+        {
+          test: /\.csv$/,
+          use: ["csv-loader"],
+        },
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          loader: "babel-loader",
+          options: {
+            plugins: ["@babel/plugin-proposal-class-properties"],
+          },
+        },
       ],
     },
 
     plugins: plugins(),
 
-    resolve: {
-      extensions: [".js", ".jsx"],
-    },
     optimization: optimization(),
     devtool: isDev ? "source-map" : false,
     devServer: {
