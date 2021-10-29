@@ -52,7 +52,6 @@ const cssLoaders = (extra) => {
       },
     },
     "css-loader",
-    "postcss-loader",
     "sass-loader",
   ];
 
@@ -191,13 +190,6 @@ module.exports = (env) => {
         {
           test: /\.(s[ac]|c)ss$/,
           use: cssLoaders("sass-loader"),
-        },
-        {
-          test: /\.jsx?$/,
-          exclude: /node_modules/,
-          use: {
-            loader: "babel-loader",
-          },
         },
         {
           test: /\.xml$/,
