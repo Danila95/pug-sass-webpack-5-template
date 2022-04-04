@@ -3,3 +3,4 @@ prod
 .idea
 stats.json
 yarn-error.log
+package-lock.json
