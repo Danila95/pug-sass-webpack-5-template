@@ -1,20 +1,18 @@
 const replace = require('replace-in-file');
 const fs = require('fs');
 const path = require('path');
-const directory = 'C:\/Users\/ddb4\/openserver_5.2.9\/domains\/itr\/frontitr\/web\/assets';
-const dontDel = '.gitignore';
 
 const results = replace.sync({
-    files: 'C:\/Library\/projects\/engineering_it-school\/prod\/main.css',
-    from: [/url\(fonts/g, /url\(img/g ],
-    to: ['url(/fonts', 'url(/img'],
+    files: 'C:\/Library\/projects\/new-layout-staff-tpu-ru\/prod\/main.css',
+    from: [/url\(fonts/g, /url\(images/g ],
+    to: ['url(/fonts', 'url(/images'],
   });
   
   console.log(results);
 
 
 // File main.css will be created or overwritten by default.
-fs.copyFile('C:\/Library\/projects\/engineering_it-school\/prod\/main.css', 'C:\/Users\/ddb4\/openserver_5.2.9\/domains\/itr\/frontitr\/assets\/src\/css\/style-main.css', (err) => {
+fs.copyFile('C:\/Library\/projects\/new-layout-staff-tpu-ru\/prod\/main.css', 'C:\/Users\/ddb4\/openserver_5.2.9\/domains\/staff\/frontstaff\/assets\/src\/css\/staff-style.css', (err) => {
   if (err) throw err;
   console.log('main.css was copied to main-style.css');
 });

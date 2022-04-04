@@ -1,3 +1,3 @@
-cd C:\Library\projects\engineering_it-school
 node prepare-style-file.js
+clear-assets.bat
 TIMEOUT 1
