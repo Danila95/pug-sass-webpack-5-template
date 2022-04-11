@@ -12,39 +12,8 @@ const results = replace.sync({
   
   console.log(results);
 
-
 // File main.css will be created or overwritten by default.
 fs.copyFile(pathFrom, pathTo, (err) => {
   if (err) throw err;
   console.log('main.css was copied to main-style.css');
 });
-
-
-//delete all files
-// fs.readdir(directory , (err, files) => {
-//   // if (err) throw err;
-//   for (const file of files) {
-//     if (dontDel === file)
-//       continue;
-//     fs.unlink(path.join(directory, file), err => {
-//       // if (err) throw err;
-//     });
-//   }
-// });
-
-
-// delete directory
-// fs.readdir(directory , (err, dirs) => {
-//   if (err) throw err;
-//   for (const dir of dirs) {
-//     if (dontDel === dir)
-//       continue;
-//     fs.rmdir(path.join(directory, dir), err => {
-//       console.log(`${dir} is deleted!`);
-//       // if (err) { 
-//       //   console.log('-----------------THIS IS .GITIGNORE FILE!!!------------------------');
-//       //   throw err;
-//       // }
-//     });
-//   }
-// });
