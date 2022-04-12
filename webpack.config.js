@@ -18,10 +18,17 @@ const isProd = !isDev;
 console.log("IS DEV:", isDev);
 console.log("IS PROD:", isProd);
 
+// https://webpack.js.org/plugins/split-chunks-plugin/
 const optimization = () => {
   const config = {
     splitChunks: {
-      chunks: "all",
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
     },
   };
   if (isProd) {
